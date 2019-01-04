@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:checkableBehavior="single">
+        <item
+            android:title="任务配置中心" />
+        <item
+            android:id="@+id/bluetooth_id"
+            android:title="搜索蓝牙标签" />
+        <item android:id="@+id/downloadTask"
+            android:title="下载巡检任务"/>
+        <item android:id="@+id/uploadResult"
+            android:title="上传检查结果"/>
+    </group>
+</menu>

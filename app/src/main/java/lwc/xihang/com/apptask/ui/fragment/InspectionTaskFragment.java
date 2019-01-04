@@ -23,6 +23,6 @@ public class InspectionTaskFragment extends BaseFragment<FragmentInspectionTaskB
 
     @Override
     public InspectionTaskViewModel initViewModel() {
-        return new InspectionTaskViewModel();
+        return new InspectionTaskViewModel(getActivity());
     }
 }

@@ -2,13 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
         <item
-            android:title="任务配置中心" />
+            android:title="任务配置中心"
+            android:name="android:actionMenuTextColor"/>
+    </group>
+    <group android:checkableBehavior="single">
         <item
             android:id="@+id/bluetooth_id"
+            android:icon="@drawable/ic_search_black_24dp"
             android:title="搜索蓝牙标签" />
         <item android:id="@+id/downloadTask"
+            android:icon="@drawable/ic_file_download_black_24dp"
             android:title="下载巡检任务"/>
         <item android:id="@+id/uploadResult"
+            android:icon="@drawable/ic_file_upload_black_24dp"
             android:title="上传检查结果"/>
     </group>
 </menu>

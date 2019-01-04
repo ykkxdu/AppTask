@@ -17,7 +17,7 @@
         android:orientation="horizontal">
         <View style="@style/listviewItem_verticalBar" />
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_vertical|center_horizontal"
@@ -25,32 +25,36 @@
             android:singleLine="true"
             android:text="@{viewModel.entity.id}"
             android:textColor="#000000"
+            android:ellipsize="end"
             android:textSize="16dp" />
         <View style="@style/listviewItem_verticalBar" />
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_vertical|center_horizontal"
             android:padding="10dp"
             android:singleLine="true"
+            android:ellipsize="end"
             android:text="@{viewModel.entity.taskName}"
             android:textColor="#000000"
             android:textSize="16dp" />
         <View style="@style/listviewItem_verticalBar" />
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_vertical|center_horizontal"
             android:padding="10dp"
             android:singleLine="true"
+            android:maxEms="6"
+            android:ellipsize="end"
             android:text="@{viewModel.entity.taskContent}"
             android:textColor="#000000"
             android:textSize="16dp" />
         <View style="@style/listviewItem_verticalBar" />
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_vertical|center_horizontal"
@@ -58,40 +62,44 @@
             android:singleLine="true"
             android:text="@{viewModel.entity.finishTime}"
             android:textColor="#000000"
+            android:ellipsize="end"
             android:textSize="16dp" />
         <View style="@style/listviewItem_verticalBar" />
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_vertical|center_horizontal"
             android:padding="10dp"
             android:singleLine="true"
+            android:ellipsize="end"
             android:text="@{viewModel.entity.taskStatus}"
             android:textColor="#000000"
             android:textSize="16dp" />
         <View style="@style/listviewItem_verticalBar" />
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_vertical|center_horizontal"
             android:padding="10dp"
             android:singleLine="true"
+            android:ellipsize="end"
             android:text="@{viewModel.entity.modify}"
-            android:textColor="#000000"
+            android:textColor="@color/blue"
             android:textSize="16dp"
             binding:onClickCommand="@{viewModel.modifyItemClick}"/>
         <View style="@style/listviewItem_verticalBar" />
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_vertical|center_horizontal"
             android:padding="10dp"
             android:singleLine="true"
+            android:ellipsize="end"
             android:text="@{viewModel.entity.delete}"
-            android:textColor="#000000"
+            android:textColor="#FF0000"
             android:textSize="16dp"
             binding:onClickCommand="@{viewModel.deleteItemClick}"/>
         <View style="@style/listviewItem_verticalBar" />

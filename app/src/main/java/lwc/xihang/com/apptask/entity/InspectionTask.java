@@ -19,16 +19,37 @@ public class InspectionTask {
     private String modify;
     // 删除
     private String delete;
+
+    public String getModify() {
+        return modify;
+    }
+
+    public void setModify(String modify) {
+        this.modify = modify;
+    }
+
+    public String getDelete() {
+        return delete;
+    }
+
+    public void setDelete(String delete) {
+        this.delete = delete;
+    }
+
     public InspectionTask(String id,
                           String taskName,
                           String taskContent,
                           String finishTime,
-                          String taskStatus){
+                          String taskStatus,
+                          String modify,
+                          String delete){
         this.id=id;
         this.taskName=taskName;
         this.taskContent=taskContent;
         this.finishTime=finishTime;
         this.taskStatus=taskStatus;
+        this.modify=modify;
+        this.delete=delete;
     }
 
     public InspectionTask() {

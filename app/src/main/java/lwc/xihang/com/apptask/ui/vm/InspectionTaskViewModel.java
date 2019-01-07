@@ -13,9 +13,12 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListPopupWindow;
+
+import java.util.ArrayList;
 import java.util.Calendar;
 import lwc.xihang.com.apptask.BR;
 import lwc.xihang.com.apptask.R;
+import lwc.xihang.com.apptask.database.OperationDBInspectionTask;
 import lwc.xihang.com.apptask.entity.InspectionTask;
 import me.goldze.mvvmhabit.base.BaseViewModel;
 import me.tatarka.bindingcollectionadapter2.ItemBinding;
@@ -27,6 +30,7 @@ public class InspectionTaskViewModel extends BaseViewModel{
     // 任务状态选择框
     private ListPopupWindow lpwShowStatus;
     private String[] listShowStatus;
+    OperationDBInspectionTask operationDBInspectionTask=new OperationDBInspectionTask(context);
     @Override
     public void onCreateView() {
         super.onCreateView();
@@ -35,7 +39,9 @@ public class InspectionTaskViewModel extends BaseViewModel{
         this.activity=activity;
         initListView();
     }
-    public InspectionTaskViewModel(){};
+    public InspectionTaskViewModel(){
+        initListView();
+    }
 
     public final ObservableList<InspectionTaskItemViewModel>
             observableList = new ObservableArrayList<>();
@@ -50,25 +56,34 @@ public class InspectionTaskViewModel extends BaseViewModel{
     public static ObservableField<String> modify=new ObservableField<>();
     public static ObservableField<String> delete=new ObservableField<>();
     private void initListView(){
+        observableList.clear();
         ObservableField<InspectionTask> header=new ObservableField<>(new InspectionTask(
                 "序号",
+                "任务ID",
                 "任务名称",
                 "任务内容",
                 "完成时间",
                 "任务状态",
                 "修改",
                 "删除"));
-        observableList.add(new InspectionTaskItemViewModel(context,header));
-        // 当前mock一些数据
-        ObservableField<InspectionTask> content=new ObservableField<>(new InspectionTask(
-                "1",
-                "答辩",
-                "严凯凯软件工程毕设研究内容",
-                "2019/6/10",
-                "未完成",
-                "修改",
-                "删除"));
-        observableList.add(new InspectionTaskItemViewModel(context,content));
+        observableList.add(new InspectionTaskItemViewModel(getActivity(),header));
+        // 从web端读入数据
+        ArrayList<ArrayList<String>> lists=operationDBInspectionTask.getSaveData();
+        for(int i=0;i<lists.size();i++){
+            InspectionTask task=new InspectionTask(
+                    String.valueOf(i+1),
+                    lists.get(i).get(1),
+                    lists.get(i).get(4),
+                    lists.get(i).get(5),
+                    lists.get(i).get(6),
+                    lists.get(i).get(7),
+                    lists.get(i).get(8),
+                    lists.get(i).get(9));
+            ObservableField<InspectionTask> taskObservableField=new ObservableField<>(task);
+            InspectionTaskItemViewModel inspectionTaskItemViewModel
+                    =new InspectionTaskItemViewModel(getActivity(),taskObservableField);
+            observableList.add(inspectionTaskItemViewModel);
+        }
     }
     // 修改检查任务逻辑
     public void modifyTaskData(final ObservableField<InspectionTask> entity){
@@ -104,9 +119,16 @@ public class InspectionTaskViewModel extends BaseViewModel{
         final AlertDialog dialog=builder.create();
         Button save=view.findViewById(R.id.save_id);
         Button cancel=view.findViewById(R.id.cancle_id);
+        final String taskID=entity.get().getId();
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Object[] objects=new Object[]{
+                        nameEdit.getText(),
+                        contentEdit.getText(),
+                        finishTimeEdit.getText(),
+                        statusEdit.getText(),
+                        taskID};
 
             }
         });

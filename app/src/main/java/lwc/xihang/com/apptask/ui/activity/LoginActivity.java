@@ -1,5 +1,7 @@
 package lwc.xihang.com.apptask.ui.activity;
+import android.content.SharedPreferences;
 import android.databinding.Observable;
+import android.os.Bundle;
 import android.text.method.HideReturnsTransformationMethod;
 import android.text.method.PasswordTransformationMethod;
 
@@ -7,6 +9,7 @@ import lwc.xihang.com.apptask.BR;
 import lwc.xihang.com.apptask.R;
 import lwc.xihang.com.apptask.databinding.ActivityLoginBinding;
 import lwc.xihang.com.apptask.ui.vm.LoginViewModel;
+import lwc.xihang.com.apptask.utils.Configuration;
 import me.goldze.mvvmhabit.base.BaseActivity;
 
 /**
@@ -54,6 +57,21 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
                 }
             }
         });
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        initialize();
+    }
+
+    private void initialize() {
+        SharedPreferences preferences =
+                getSharedPreferences(Configuration.SharedPreferencesLogin, MODE_PRIVATE);
+        Boolean isLogin = preferences.getBoolean("isLogin", false);
+        if (isLogin) {
+            loginViewModel.gotoMain();
+        }
     }
 
 }

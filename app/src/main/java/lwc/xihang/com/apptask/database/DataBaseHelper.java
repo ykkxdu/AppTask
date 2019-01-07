@@ -14,10 +14,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
     // 用户数据库
     // 检查任务数据库
-    String sql_inspectionTask= "create table inspectionTask(_id integer primary key autoincrement, taskId," +
-            "taskNo,user_id,taskName,taskContent,finishTime,taskStatus,modify,delete)"; //10字段
     @Override
     public void onCreate(SQLiteDatabase db) {
+        String sql_inspectionTask= "create table task(_id integer primary key autoincrement,taskId," +
+                "taskNo,user_id,taskName,taskContent,finishTime,taskStatus,modify,deleteTask)"; //10字段
         db.execSQL(sql_inspectionTask);
     }
 

@@ -6,6 +6,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -13,25 +14,26 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 import lwc.xihang.com.apptask.BR;
 import lwc.xihang.com.apptask.R;
+import lwc.xihang.com.apptask.database.OperationDBInspectionTask;
 import lwc.xihang.com.apptask.databinding.ActivityMainBinding;
 import lwc.xihang.com.apptask.ui.fragment.InspectionTaskFragment;
 import lwc.xihang.com.apptask.ui.vm.MainViewModel;
+import lwc.xihang.com.apptask.utils.Configuration;
 import lwc.xihang.com.apptask.utils.MyAdapter;
 import me.goldze.mvvmhabit.base.BaseActivity;
-
 public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewModel> {
     private BluetoothAdapter bluetoothAdapter;
     private List<String> listItems;
@@ -75,10 +77,13 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                         progressDialog.show();
                         break;
                     case R.id.downloadTask:
-                        Toast.makeText(getApplicationContext(),"下载巡检任务",Toast.LENGTH_LONG).show();
+                        viewModel.downLoadTask();
                         break;
                     case R.id.uploadResult:
                         Toast.makeText(getApplicationContext(),"上传巡检结果",Toast.LENGTH_LONG).show();
+                        break;
+                    case R.id.exitSystem:
+                        viewModel.logout();
                         break;
                     default:
                         break;
@@ -158,5 +163,35 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         builder.setView(layout);
         alertDialog = builder.create();
         alertDialog.show();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.setting_menu,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+       switch (item.getItemId()){
+           case R.id.deleteTaskBaseData:
+               OperationDBInspectionTask task=new OperationDBInspectionTask(getApplicationContext());
+               task.clearDB();
+               break;
+           default:
+               break;
+       }
+       return true;
+    }
+
+    // 控制平板下方的返回键不返回到登录界面上。
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode==KeyEvent.KEYCODE_BACK){
+            Intent intent=new Intent(MainActivity.this,MainActivity.class);
+            startActivity(intent);
+            finish();
+        }
+        return true;
     }
 }

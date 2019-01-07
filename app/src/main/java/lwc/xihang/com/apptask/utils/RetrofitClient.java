@@ -33,7 +33,6 @@ import rx.schedulers.Schedulers;
  * RetrofitClient封装单例类, 实现网络请求
  */
 public class RetrofitClient {
-
     // 超时时间
     private static final int DEFAULT_TIMEOUT = 1200000;
     // 缓存时间
@@ -65,6 +64,7 @@ public class RetrofitClient {
         RetrofitClient retrofitClient = new RetrofitClient();
         return retrofitClient;
     }
+
     public static RetrofitClient getInstance(String url) {
         return new RetrofitClient(url);
     }
@@ -129,6 +129,7 @@ public class RetrofitClient {
             .baseUrl(url)
             .build();
     }
+
     /**
      * create you ApiService
      * Create an implementation of the API endpoints defined by the {@code service} interface.
@@ -139,6 +140,7 @@ public class RetrofitClient {
         }
         return retrofit.create(service);
     }
+
     /**
      * /**
      * execute your customer API

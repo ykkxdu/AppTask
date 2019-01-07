@@ -1,20 +1,26 @@
 package lwc.xihang.com.apptask.ui.vm;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
+import android.text.TextUtils;
 import android.view.View;
 
+import lwc.xihang.com.apptask.entity.User;
+import lwc.xihang.com.apptask.service.LoginService;
 import lwc.xihang.com.apptask.ui.activity.MainActivity;
+import lwc.xihang.com.apptask.utils.Configuration;
+import lwc.xihang.com.apptask.utils.RetrofitClient;
 import me.goldze.mvvmhabit.base.BaseViewModel;
 import me.goldze.mvvmhabit.binding.command.BindingCommand;
+import me.goldze.mvvmhabit.utils.RxUtils;
+import me.goldze.mvvmhabit.utils.ToastUtils;
 import rx.functions.Action0;
 import rx.functions.Action1;
-
 /**
  * Created on 2017/7/17.
  */
-
 public class LoginViewModel extends BaseViewModel {
     public LoginViewModel(Context context) {
         super(context);
@@ -62,8 +68,57 @@ public class LoginViewModel extends BaseViewModel {
     public BindingCommand loginOnClickCommand = new BindingCommand(new Action0() {
         @Override
         public void call() {
-            startActivity(MainActivity.class);
+            login();
         }
     });
+    /**
+     * 网络登陆操作
+     **/
+    private void login() {
+        if (TextUtils.isEmpty(userName.get())) {
+            ToastUtils.showShort("请输入账号！");
+            return;
+        }
+        if (TextUtils.isEmpty(password.get())) {
+            ToastUtils.showShort("请输入密码！");
+            return;
+        }
+        //真实登录，从服务端请求数据
+        RetrofitClient.getInstance().create(LoginService.class)
+                .login(userName.get(), password.get())
+                .compose(RxUtils.bindToLifecycle(getActivity()))
+                .compose(RxUtils.schedulersTransformer())
+                .doOnSubscribe(new Action0() {
+                    @Override
+                    public void call() {
+                        showDialog();
+                    }
+                })
+                .subscribe(new Action1<User>() {
+                    @Override
+                    public void call(User response) {
+                        dismissDialog();
+                        User user = response;
+                        SharedPreferences preferences =
+                                getSharedPreferences(Configuration.SharedPreferencesLogin);
+                        SharedPreferences.Editor editor = preferences.edit();
+                         editor.putBoolean("isLogin", true);
+                        editor.putString("username", user.getUserName());
+                        editor.putLong("userId", Long.parseLong(user.getId()));
+                        editor.commit();
+                        startActivity(MainActivity.class);
+                    }
+                }, new Action1<Throwable>() {
+                    @Override
+                    public void call(Throwable throwable) {
+                        dismissDialog();
+                        ToastUtils.showShort("请求异常");
+                        throwable.printStackTrace();
+                    }
+                });
+    }
+    public void gotoMain() {
+        startActivity(MainActivity.class);
+    }
 
 }

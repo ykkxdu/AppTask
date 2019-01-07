@@ -2,8 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
         <item
-            android:title="任务配置中心"
-            android:name="android:actionMenuTextColor"/>
+            android:title="任务配置中心" />
     </group>
     <group android:checkableBehavior="single">
         <item
@@ -16,5 +15,8 @@
         <item android:id="@+id/uploadResult"
             android:icon="@drawable/ic_file_upload_black_24dp"
             android:title="上传检查结果"/>
+        <item android:id="@+id/exitSystem"
+            android:icon="@drawable/exit_system_app"
+            android:title="退出系统"/>
     </group>
 </menu>

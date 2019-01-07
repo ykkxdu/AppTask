@@ -9,7 +9,7 @@ public class InspectionTask {
     private String id;
     // 任务名字
     private String taskName;
-    // 任务类型
+    // 任务内容
     private String taskContent;
     // 完成时间
     private String finishTime;
@@ -19,6 +19,16 @@ public class InspectionTask {
     private String modify;
     // 删除
     private String delete;
+    // 序号
+    private String  num;
+
+    public String getNum() {
+        return num;
+    }
+
+    public void setNum(String num) {
+        this.num = num;
+    }
 
     public String getModify() {
         return modify;
@@ -36,7 +46,7 @@ public class InspectionTask {
         this.delete = delete;
     }
 
-    public InspectionTask(String id,
+    public InspectionTask(String num,String id,
                           String taskName,
                           String taskContent,
                           String finishTime,
@@ -44,6 +54,7 @@ public class InspectionTask {
                           String modify,
                           String delete){
         this.id=id;
+        this.num=num;
         this.taskName=taskName;
         this.taskContent=taskContent;
         this.finishTime=finishTime;

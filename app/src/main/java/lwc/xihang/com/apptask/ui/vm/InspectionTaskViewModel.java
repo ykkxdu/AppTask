@@ -16,6 +16,8 @@ import android.widget.ListPopupWindow;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Objects;
+
 import lwc.xihang.com.apptask.BR;
 import lwc.xihang.com.apptask.R;
 import lwc.xihang.com.apptask.database.OperationDBInspectionTask;
@@ -40,10 +42,8 @@ public class InspectionTaskViewModel extends BaseViewModel{
         initListView();
     }
     public InspectionTaskViewModel(){
-        initListView();
     }
-
-    public final ObservableList<InspectionTaskItemViewModel>
+    public static final ObservableList<InspectionTaskItemViewModel>
             observableList = new ObservableArrayList<>();
     public final ItemBinding<InspectionTaskItemViewModel>
             itemBinding = ItemBinding.of(BR.viewModel, R.layout.item_inspection_task);
@@ -55,8 +55,9 @@ public class InspectionTaskViewModel extends BaseViewModel{
     public static ObservableField<String> taskStatus=new ObservableField<>();
     public static ObservableField<String> modify=new ObservableField<>();
     public static ObservableField<String> delete=new ObservableField<>();
-    private void initListView(){
+    public void initListView(){
         observableList.clear();
+        OperationDBInspectionTask taskoperation=new OperationDBInspectionTask(context);
         ObservableField<InspectionTask> header=new ObservableField<>(new InspectionTask(
                 "序号",
                 "任务ID",
@@ -68,7 +69,7 @@ public class InspectionTaskViewModel extends BaseViewModel{
                 "删除"));
         observableList.add(new InspectionTaskItemViewModel(getActivity(),header));
         // 从web端读入数据
-        ArrayList<ArrayList<String>> lists=operationDBInspectionTask.getSaveData();
+        ArrayList<ArrayList<String>> lists=taskoperation.getSaveData();
         for(int i=0;i<lists.size();i++){
             InspectionTask task=new InspectionTask(
                     String.valueOf(i+1),
@@ -84,6 +85,13 @@ public class InspectionTaskViewModel extends BaseViewModel{
                     =new InspectionTaskItemViewModel(getActivity(),taskObservableField);
             observableList.add(inspectionTaskItemViewModel);
         }
+    }
+    // 删除检查任务逻辑
+    public void deleteTaskData(final ObservableField<InspectionTask> entity){
+        String id=entity.get().getId();
+        Object[] objects=new Object[]{id};
+        operationDBInspectionTask.deleteData(objects);
+        initListView();
     }
     // 修改检查任务逻辑
     public void modifyTaskData(final ObservableField<InspectionTask> entity){
@@ -129,6 +137,9 @@ public class InspectionTaskViewModel extends BaseViewModel{
                         finishTimeEdit.getText(),
                         statusEdit.getText(),
                         taskID};
+                operationDBInspectionTask.modifyInDataBase(objects);
+                initListView();
+                dialog.dismiss();
 
             }
         });

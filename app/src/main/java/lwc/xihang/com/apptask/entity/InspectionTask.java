@@ -46,7 +46,8 @@ public class InspectionTask {
         this.delete = delete;
     }
 
-    public InspectionTask(String num,String id,
+    public InspectionTask(String num,
+                          String id,
                           String taskName,
                           String taskContent,
                           String finishTime,

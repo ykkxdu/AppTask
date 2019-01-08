@@ -118,7 +118,6 @@
                     android:src="@mipmap/show_psw"
                     binding:onClickCommand="@{viewModel.passwordShowSwitchOnClickCommand}" />
             </LinearLayout>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -133,7 +132,16 @@
                     android:text="登录"
                     android:textColor="@color/white"
                     android:textSize="18sp"
-                    binding:onClickCommand="@{viewModel.loginOnClickCommand}" />
+                    binding:onClickCommand="@{viewModel.loginOnClickCommand}"/>
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:background="@mipmap/btn_login"
+                    android:text="注册"
+                    android:textColor="@color/white"
+                    android:textSize="18sp"
+                    binding:onClickCommand="@{viewModel.registryClickCommand}"/>
             </LinearLayout>
         </LinearLayout>
     </RelativeLayout>

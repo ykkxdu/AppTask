@@ -53,7 +53,7 @@ public class OperationDBInspectionTask {
         }
         return lists;
     }
-    // 清除数据库
+    // 清除数据库中的全部数据
     public void clearDB() {
         initdb();
         while (cursor.moveToNext()) {
@@ -62,11 +62,18 @@ public class OperationDBInspectionTask {
         }
         cursor.close();
     }
+    public void deleteData(Object[] objects){
+        initdb();
+        while (cursor.moveToNext()) {
+            db.execSQL("delete from task where taskId=?",objects);
+        }
+        cursor.close();
+    }
     // 修改数据库
     public void modifyInDataBase(Object[] objects) {
         initdb();
         db.execSQL("update task set " +
-                "taskName=?,taskContent=?,finishTime=?,taskStatus=? where _id=?",objects);
+                "taskName=?,taskContent=?,finishTime=?,taskStatus=? where taskId=?",objects);
     }
     // 用来判读是否重复下载
     public boolean isHaveId(String id){

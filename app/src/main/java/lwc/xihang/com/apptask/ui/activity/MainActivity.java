@@ -4,6 +4,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -30,8 +31,8 @@ import lwc.xihang.com.apptask.R;
 import lwc.xihang.com.apptask.database.OperationDBInspectionTask;
 import lwc.xihang.com.apptask.databinding.ActivityMainBinding;
 import lwc.xihang.com.apptask.ui.fragment.InspectionTaskFragment;
+import lwc.xihang.com.apptask.ui.vm.InspectionTaskViewModel;
 import lwc.xihang.com.apptask.ui.vm.MainViewModel;
-import lwc.xihang.com.apptask.utils.Configuration;
 import lwc.xihang.com.apptask.utils.MyAdapter;
 import me.goldze.mvvmhabit.base.BaseActivity;
 public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewModel> {
@@ -80,7 +81,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                         viewModel.downLoadTask();
                         break;
                     case R.id.uploadResult:
-                        Toast.makeText(getApplicationContext(),"上传巡检结果",Toast.LENGTH_LONG).show();
+                        viewModel.uploadTaskResult();
                         break;
                     case R.id.exitSystem:
                         viewModel.logout();
@@ -128,7 +129,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
             if(action.equals(BluetoothDevice.ACTION_FOUND)){
                 BluetoothDevice device=intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
                 if(device.getBondState()!=BluetoothDevice.BOND_BONDED){
-                    listItems.add(device.getName()+"==>"+device.getAddress());
+                    listItems.add(device.getAddress());
                 }
             }else if(action.equals(BluetoothAdapter.ACTION_DISCOVERY_FINISHED)){
                 progressDialog.dismiss();
@@ -175,8 +176,18 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     public boolean onOptionsItemSelected(MenuItem item) {
        switch (item.getItemId()){
            case R.id.deleteTaskBaseData:
-               OperationDBInspectionTask task=new OperationDBInspectionTask(getApplicationContext());
-               task.clearDB();
+               new AlertDialog.Builder(this)
+                       .setTitle("确认删除全部巡检任务吗?")
+                       .setNegativeButton("取消",null)
+                       .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                           @Override
+                           public void onClick(DialogInterface dialogInterface, int i) {
+                               OperationDBInspectionTask task=new OperationDBInspectionTask(getApplicationContext());
+                               task.clearDB();
+                               new InspectionTaskViewModel().initListView();
+                               Toast.makeText(getApplicationContext(),"删除成功!",Toast.LENGTH_LONG).show();
+                           }
+                       }).show();
                break;
            default:
                break;

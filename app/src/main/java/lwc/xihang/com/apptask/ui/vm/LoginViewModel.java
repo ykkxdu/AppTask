@@ -154,8 +154,8 @@ public class LoginViewModel extends BaseViewModel {
         saveUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(r_username.getText().toString()!=null){
-                    if(r_password.getText().toString()!=null&&confirm_password.getText().toString()!=null){
+                if(!r_username.getText().toString().equals("")){
+                    if(!r_password.getText().toString().equals("")&&!confirm_password.getText().toString().equals("")){
                         if(r_password.getText().toString().equals(confirm_password.getText().toString())){
                             User user=new User();
                             user.setUserName(r_username.getText().toString());
@@ -190,6 +190,8 @@ public class LoginViewModel extends BaseViewModel {
                                             throwable.printStackTrace();
                                         }
                                     });
+                        }else {
+                            ToastUtils.showLong("两次输入的密码不一样!");
                         }
                     }else {
                         ToastUtils.showLong("密码为空!");

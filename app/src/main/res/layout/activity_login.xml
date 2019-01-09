@@ -86,9 +86,9 @@
                 android:padding="16sp">
 
                 <ImageView
-                    android:layout_width="22dp"
-                    android:layout_height="22dp"
-                    android:src="@mipmap/password_icon" />
+                android:layout_width="22dp"
+                android:layout_height="22dp"
+                android:src="@mipmap/password_icon" />
 
                 <View
                     android:layout_width="1dp"

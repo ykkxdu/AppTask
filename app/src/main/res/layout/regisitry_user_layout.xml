@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
     <LinearLayout
-        android:layout_width="400dp"
+        android:layout_width="320dp"
         android:layout_height="70dp"
         android:background="@mipmap/user_edit"
         android:gravity="center"
@@ -22,7 +22,7 @@
             android:background="@color/textColorHint" />
         <EditText
             android:id="@+id/registry_username_id"
-            android:layout_width="300dp"
+            android:layout_width="220dp"
             android:layout_height="wrap_content"
             android:background="@null"
             android:gravity="center"
@@ -32,7 +32,7 @@
             android:hint="请输入用户名"/>
     </LinearLayout>
     <LinearLayout
-        android:layout_width="400dp"
+        android:layout_width="320dp"
         android:layout_height="70dp"
         android:background="@mipmap/user_edit"
         android:gravity="center"
@@ -51,7 +51,7 @@
             android:background="@color/textColorHint" />
         <EditText
             android:id="@+id/registry_password_id"
-            android:layout_width="300dp"
+            android:layout_width="220dp"
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:gravity="center"
@@ -61,7 +61,7 @@
             android:hint="请输入密码"/>
     </LinearLayout>
     <LinearLayout
-        android:layout_width="400dp"
+        android:layout_width="320dp"
         android:layout_height="70dp"
         android:background="@mipmap/user_edit"
         android:gravity="center"
@@ -80,7 +80,7 @@
             android:background="@color/textColorHint" />
         <EditText
             android:id="@+id/registry_confirm_password_id"
-            android:layout_width="300dp"
+            android:layout_width="220dp"
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:gravity="center"
@@ -90,7 +90,7 @@
             android:hint="再次输入密码"/>
     </LinearLayout>
     <RelativeLayout
-        android:layout_width="400dp"
+        android:layout_width="310dp"
         android:layout_height="80dp"
         android:padding="20sp"
         android:orientation="horizontal">

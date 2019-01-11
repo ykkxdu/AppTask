@@ -21,6 +21,24 @@ public class InspectionTask {
     private String delete;
     // 序号
     private String  num;
+    private BlueTooth blueTooth;
+    private User user;
+
+    public BlueTooth getBlueTooth() {
+        return blueTooth;
+    }
+
+    public void setBlueTooth(BlueTooth blueTooth) {
+        this.blueTooth = blueTooth;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
 
     public String getNum() {
         return num;

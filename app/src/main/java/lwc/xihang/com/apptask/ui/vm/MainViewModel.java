@@ -16,6 +16,7 @@ import lwc.xihang.com.apptask.service.InspectionTaskService;
 import lwc.xihang.com.apptask.service.LoginService;
 import lwc.xihang.com.apptask.service.UploadTaskResultService;
 import lwc.xihang.com.apptask.ui.activity.LoginActivity;
+import lwc.xihang.com.apptask.ui.activity.MainActivity;
 import lwc.xihang.com.apptask.utils.Configuration;
 import lwc.xihang.com.apptask.utils.RetrofitClient;
 import me.goldze.mvvmhabit.base.BaseViewModel;
@@ -148,81 +149,93 @@ public class MainViewModel extends BaseViewModel {
                 });
     }
     //  下载检查任务
-    public void downLoadTask(){
-        RetrofitClient.getInstance().create(InspectionTaskService.class)
-                .queryAll()
-                .compose(RxUtils.bindToLifecycle(context))
-                .compose(RxUtils.schedulersTransformer())
-                .doOnSubscribe(new Action0() {
-                    @Override
-                    public void call() {
-                        showDialog();
-                    }
-                })
-                .subscribe(new Action1<BaseWrapper<InspectionTask>>() {
-                    @Override
-                    public void call(BaseWrapper<InspectionTask> response) {
-                        final List<InspectionTask> tasks = response.get_embedded().get("inspectionTasks");
-                        result.clear();
-                        for (InspectionTask task : tasks) {
-                            result.add(task.getId() + ","+task.getTaskContent() + "," +task.getTaskName());
+    public void downLoadTask(final String blueToothId){
+        if(blueToothId!=null) {
+            RetrofitClient.getInstance().create(InspectionTaskService.class)
+                    .queryAll()
+                    .compose(RxUtils.bindToLifecycle(context))
+                    .compose(RxUtils.schedulersTransformer())
+                    .doOnSubscribe(new Action0() {
+                        @Override
+                        public void call() {
+                            showDialog();
                         }
-                        result.add("全选");
-                        final String[] items = result.toArray(new String[result.size()]);
-                        final List<String> hasChoosed = new ArrayList<>();
-                        // 创建一个AlertDialog建造者
-                        final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
-                        // 设置标题
-                        alertDialogBuilder.setTitle("选择下载任务");
-                        alertDialogBuilder.setMultiChoiceItems(
-                                items, null, new DialogInterface.OnMultiChoiceClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                                        if (isChecked) {
-                                            hasChoosed.add(items[which]);
-                                            // 判断是否全部选中，如果点击全部选中，则下载所有的检查任务。
-                                            if (which == items.length - 1) {
-                                                for (int i = 0; i < items.length - 1; i++) {
-                                                    hasChoosed.add(items[i]);
-                                                }
-                                            }
-                                        } else {
-                                            hasChoosed.remove(items[which]);
-                                        }
-                                    }
-                                });
-                        alertDialogBuilder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface arg0, int arg1) {
-                                //TODO 业务逻辑代码
-                                showDialog();
-                                for (String s : hasChoosed) {
-                                    downInspectionTask(tasks, s.split(",")[0]);
+                    })
+                    .subscribe(new Action1<BaseWrapper<InspectionTask>>() {
+                        @Override
+                        public void call(BaseWrapper<InspectionTask> response) {
+                            final List<InspectionTask> tasks = response.get_embedded().get("inspectionTasks");
+                            result.clear();
+                            for (InspectionTask task : tasks) {
+                                if (task.getBlueTooth().getBlueToothId().equals(blueToothId)&&
+                                        task.getUser().getUserName().equals(userName.get())) {
+                                    result.add(task.getId() + "," + task.getTaskContent() + "," + task.getTaskName());
                                 }
-                                // 刷新页面
-                               new InspectionTaskViewModel();
                             }
-                        });
-                        alertDialogBuilder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface arg0, int arg1) {
-                                // TODO 业务逻辑代码
-                                // 关闭提示框
-                                alertDialog3.dismiss();
+                            if(result.size()==0){
+                                dismissDialog();
+                                ToastUtils.showLong("该蓝牙标签不存在任务!");
+                                return;
                             }
-                        });
-                        alertDialog3 = alertDialogBuilder.create();
-                        alertDialog3.show();
-                        dismissDialog();
-                    }
-                }, new Action1<Throwable>() {
-                    @Override
-                    public void call(Throwable throwable) {
-                        dismissDialog();
-                        ToastUtils.showShort(throwable.getMessage());
-                        throwable.printStackTrace();
-                    }
-                });
+                            result.add("全选");
+                            final String[] items = result.toArray(new String[result.size()]);
+                            final List<String> hasChoosed = new ArrayList<>();
+                            // 创建一个AlertDialog建造者
+                            final AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(context);
+                            // 设置标题
+                            alertDialogBuilder.setTitle("选择下载任务");
+                            alertDialogBuilder.setMultiChoiceItems(
+                                    items, null, new DialogInterface.OnMultiChoiceClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                                            if (isChecked) {
+                                                hasChoosed.add(items[which]);
+                                                // 判断是否全部选中，如果点击全部选中，则下载所有的检查任务。
+                                                if (which == items.length - 1) {
+                                                    for (int i = 0; i < items.length - 1; i++) {
+                                                        hasChoosed.add(items[i]);
+                                                    }
+                                                }
+                                            } else {
+                                                hasChoosed.remove(items[which]);
+                                            }
+                                        }
+                                    });
+                            alertDialogBuilder.setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface arg0, int arg1) {
+                                    //TODO 业务逻辑代码
+                                    showDialog();
+                                    for (String s : hasChoosed) {
+                                        downInspectionTask(tasks, s.split(",")[0]);
+                                    }
+                                    // 刷新页面
+                                    new InspectionTaskViewModel();
+                                }
+                            });
+                            alertDialogBuilder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface arg0, int arg1) {
+                                    // TODO 业务逻辑代码
+                                    // 关闭提示框
+                                    alertDialog3.dismiss();
+                                }
+                            });
+                            alertDialog3 = alertDialogBuilder.create();
+                            alertDialog3.show();
+                            dismissDialog();
+                        }
+                    }, new Action1<Throwable>() {
+                        @Override
+                        public void call(Throwable throwable) {
+                            dismissDialog();
+                            ToastUtils.showShort(throwable.getMessage());
+                            throwable.printStackTrace();
+                        }
+                    });
+        }else {
+            ToastUtils.showLong("请先搜索蓝牙!");
+        }
     }
     // 将选择的巡检任务保存到本地数据库中
     public void downInspectionTask(List<InspectionTask> tasks, String id){

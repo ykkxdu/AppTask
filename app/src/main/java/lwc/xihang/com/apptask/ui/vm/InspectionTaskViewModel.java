@@ -16,8 +16,6 @@ import android.widget.ListPopupWindow;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Objects;
-
 import lwc.xihang.com.apptask.BR;
 import lwc.xihang.com.apptask.R;
 import lwc.xihang.com.apptask.database.OperationDBInspectionTask;
@@ -42,6 +40,7 @@ public class InspectionTaskViewModel extends BaseViewModel{
         initListView();
     }
     public InspectionTaskViewModel(){
+        initListView();
     }
     public static final ObservableList<InspectionTaskItemViewModel>
             observableList = new ObservableArrayList<>();

@@ -11,6 +11,6 @@ import rx.Observable;
  */
 
 public interface InspectionTaskService {
-    @GET("api/inspectionTasks")
+    @GET("api/inspectionTasks?projection=all")
     Observable<BaseWrapper<InspectionTask>> queryAll();
 }

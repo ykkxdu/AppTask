@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
@@ -30,11 +29,14 @@ import lwc.xihang.com.apptask.BR;
 import lwc.xihang.com.apptask.R;
 import lwc.xihang.com.apptask.database.OperationDBInspectionTask;
 import lwc.xihang.com.apptask.databinding.ActivityMainBinding;
+import lwc.xihang.com.apptask.entity.InspectionTask;
 import lwc.xihang.com.apptask.ui.fragment.InspectionTaskFragment;
 import lwc.xihang.com.apptask.ui.vm.InspectionTaskViewModel;
 import lwc.xihang.com.apptask.ui.vm.MainViewModel;
 import lwc.xihang.com.apptask.utils.MyAdapter;
 import me.goldze.mvvmhabit.base.BaseActivity;
+import me.goldze.mvvmhabit.utils.ToastUtils;
+
 public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewModel> {
     private BluetoothAdapter bluetoothAdapter;
     private List<String> listItems;
@@ -43,6 +45,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     private ProgressDialog progressDialog;
     private TextView username;
     private TextView showSelectTooth;
+    public String blueToothId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -78,7 +81,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                         progressDialog.show();
                         break;
                     case R.id.downloadTask:
-                        viewModel.downLoadTask();
+                        viewModel.downLoadTask(blueToothId);
                         break;
                     case R.id.uploadResult:
                         viewModel.uploadTaskResult();
@@ -125,16 +128,27 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
     private BroadcastReceiver receiver=new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
-            String action=intent.getAction();
-            if(action.equals(BluetoothDevice.ACTION_FOUND)){
-                BluetoothDevice device=intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                if(device.getBondState()!=BluetoothDevice.BOND_BONDED){
-                    listItems.add(device.getAddress());
+            try {
+                String action=intent.getAction();
+                if(action.equals(BluetoothDevice.ACTION_FOUND)){
+                    BluetoothDevice device=intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
+                    if(device.getBondState()!=BluetoothDevice.BOND_BONDED){
+                        // 如果蓝牙名字为空，则用name代替
+                        if(device.getName()==null)
+                        {
+                            listItems.add("name"+"-"+device.getAddress());
+                        }else {
+                            listItems.add(device.getName()+"-"+device.getAddress());
+                        }
+                    }
+                }else if(action.equals(BluetoothAdapter.ACTION_DISCOVERY_FINISHED)){
+                    progressDialog.dismiss();
+                    showDialog();
                 }
-            }else if(action.equals(BluetoothAdapter.ACTION_DISCOVERY_FINISHED)){
-                progressDialog.dismiss();
-                showDialog();
+            }catch (Exception e){
+                ToastUtils.showLong("请先搜索蓝牙标签!");
             }
+
         }
     };
     // 巡检任务的上传与下载控制
@@ -157,6 +171,8 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
             public void onItemClick(AdapterView<?> arg0, View arg1, int positon, long id) {
                 //在这里面就是执行点击后要进行的操作
                 showSelectTooth.setText(listItems.get(positon));
+
+                blueToothId=listItems.get(positon).split("-")[1];
                 alertDialog.dismiss();
             }
         });

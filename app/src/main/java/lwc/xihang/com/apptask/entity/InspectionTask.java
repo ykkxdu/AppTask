@@ -21,15 +21,15 @@ public class InspectionTask {
     private String delete;
     // 序号
     private String  num;
-    private BlueTooth blueTooth;
+    private BlueLabel blueLabel;
     private User user;
 
-    public BlueTooth getBlueTooth() {
-        return blueTooth;
+    public BlueLabel getBlueLabel() {
+        return blueLabel;
     }
 
-    public void setBlueTooth(BlueTooth blueTooth) {
-        this.blueTooth = blueTooth;
+    public void setBlueLabel(BlueLabel blueLabel) {
+        this.blueLabel = blueLabel;
     }
 
     public User getUser() {

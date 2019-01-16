@@ -16,7 +16,6 @@ import lwc.xihang.com.apptask.service.InspectionTaskService;
 import lwc.xihang.com.apptask.service.LoginService;
 import lwc.xihang.com.apptask.service.UploadTaskResultService;
 import lwc.xihang.com.apptask.ui.activity.LoginActivity;
-import lwc.xihang.com.apptask.ui.activity.MainActivity;
 import lwc.xihang.com.apptask.utils.Configuration;
 import lwc.xihang.com.apptask.utils.RetrofitClient;
 import me.goldze.mvvmhabit.base.BaseViewModel;
@@ -167,7 +166,7 @@ public class MainViewModel extends BaseViewModel {
                             final List<InspectionTask> tasks = response.get_embedded().get("inspectionTasks");
                             result.clear();
                             for (InspectionTask task : tasks) {
-                                if (task.getBlueTooth().getBlueToothId().equals(blueToothId)&&
+                                if (task.getBlueLabel().getBlueToothId().equals(blueToothId)&&
                                         task.getUser().getUserName().equals(userName.get())) {
                                     result.add(task.getId() + "," + task.getTaskContent() + "," + task.getTaskName());
                                 }

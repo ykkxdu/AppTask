@@ -4,7 +4,7 @@ package lwc.xihang.com.apptask.entity;
  * Created by Administrator on 2019/1/11.
  */
 
-public class BlueTooth {
+public class BlueLabel {
     // 蓝牙Id
     private String id;
     // 蓝牙标签
@@ -12,7 +12,7 @@ public class BlueTooth {
     // 蓝牙的名字
     private String blueToothName;
 
-    public BlueTooth(String id, String blueToothId, String blueToothName) {
+    public BlueLabel(String id, String blueToothId, String blueToothName) {
         this.id = id;
         this.blueToothId = blueToothId;
         this.blueToothName = blueToothName;

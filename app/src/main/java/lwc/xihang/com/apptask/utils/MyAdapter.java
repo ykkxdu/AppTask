@@ -14,6 +14,7 @@ import lwc.xihang.com.apptask.R;
 
 /**
  * Created by Administrator on 2019/1/3.
+ * 显示所有搜索到的蓝牙表桥界面(ListView布局)
  */
 
 public class MyAdapter extends BaseAdapter {

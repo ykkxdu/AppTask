@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 /**
  * Created by Administrator on 2019/1/4.
+ * 检查任务数据库的增删改查操作
  */
 
 public class OperationDBInspectionTask {
@@ -62,6 +63,7 @@ public class OperationDBInspectionTask {
         }
         cursor.close();
     }
+    // 删除数据库中的数据
     public void deleteData(Object[] objects){
         initdb();
         while (cursor.moveToNext()) {

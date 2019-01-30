@@ -10,6 +10,10 @@ import rx.Observable;
 
 /**
  * Created by Administrator on 2019/1/8.
+ * 修改检查任务接口
+ * 方法:patch
+ * 接口:api/inspectionTasks/{id}
+ * 参数:id(要修改的检查任务Id)
  */
 
 public interface UploadTaskResultService {

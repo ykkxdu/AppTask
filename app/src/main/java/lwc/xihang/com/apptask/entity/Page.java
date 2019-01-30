@@ -2,13 +2,17 @@ package lwc.xihang.com.apptask.entity;
 
 /**
  * Created on 2017/12/24.
+ * 页面的定义
  */
 
 public class Page {
-    
+    // 每页元素的个数
     private Integer number;
+    // 每页的大小
     private Integer size;
+    // 总共的页数
     private Integer totalPages;
+    // 总共的元素
     private Integer totalElements;
 
     public Integer getNumber() {

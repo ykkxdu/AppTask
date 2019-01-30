@@ -2,6 +2,7 @@ package lwc.xihang.com.apptask.entity;
 
 /**
  * Created by Administrator on 2019/1/3.
+ * 检查任务实体
  */
 
 public class InspectionTask {

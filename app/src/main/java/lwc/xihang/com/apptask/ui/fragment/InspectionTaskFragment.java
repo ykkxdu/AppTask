@@ -8,6 +8,7 @@ import me.goldze.mvvmhabit.base.BaseFragment;
 
 /**
  * Created by Administrator on 2019/1/3.
+ * 在MainActivity界面上面放置一个Fragment，用来渲染检查任务数据。
  */
 
 public class InspectionTaskFragment extends BaseFragment<FragmentInspectionTaskBinding, InspectionTaskViewModel>{

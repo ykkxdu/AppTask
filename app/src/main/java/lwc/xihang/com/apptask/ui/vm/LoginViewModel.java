@@ -1,12 +1,10 @@
 package lwc.xihang.com.apptask.ui.vm;
 import android.app.AlertDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.databinding.ObservableBoolean;
 import android.databinding.ObservableField;
 import android.databinding.ObservableInt;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -31,6 +29,7 @@ import rx.functions.Action0;
 import rx.functions.Action1;
 /**
  * Created on 2017/7/17.
+ * 登录界面的视图绑定
  */
 public class LoginViewModel extends BaseViewModel {
     public LoginViewModel(Context context) {
@@ -101,7 +100,7 @@ public class LoginViewModel extends BaseViewModel {
             ToastUtils.showShort("请输入密码！");
             return;
         }
-        //真实登录，从服务端请求数据
+        //从服务端请求数据，验证用户名和密码是否存在
         RetrofitClient.getInstance().create(LoginService.class)
                 .login(userName.get(), password.get())
                 .compose(RxUtils.bindToLifecycle(getActivity()))
@@ -116,6 +115,7 @@ public class LoginViewModel extends BaseViewModel {
                     @Override
                     public void call(User response) {
                         User user = response;
+                        // 将用户名，密码临时存储
                         SharedPreferences preferences =
                                 getSharedPreferences(Configuration.SharedPreferencesLogin);
                         SharedPreferences.Editor editor = preferences.edit();
@@ -135,6 +135,7 @@ public class LoginViewModel extends BaseViewModel {
                     }
                 });
     }
+    // 验证成功后，进入主界面MainActivity
     public void gotoMain() {
         startActivity(MainActivity.class);
     }

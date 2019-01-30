@@ -102,9 +102,11 @@ public class MainViewModel extends BaseViewModel {
 
 
     }
+    // 请求服务器吗，进行上传检查任务。
     public void findTaskResult(String s){
         OperationDBInspectionTask task=new OperationDBInspectionTask(context);
         InspectionTask inspectionTask=null;
+        // 存储所有要上传的检查任务
         ArrayList<ArrayList<String>> lists=task.getSaveData();
         for(ArrayList<String> list:lists){
             if(list.get(1).equals(s)){

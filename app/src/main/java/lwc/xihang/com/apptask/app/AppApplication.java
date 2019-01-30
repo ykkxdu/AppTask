@@ -10,6 +10,8 @@ import me.goldze.mvvmhabit.utils.KLog;
 
 /**
  * Created by Administrator on 2019/1/7.
+ * 整个APP的控制
+ * 用来配置app的bug跟踪，日志的打印等信息。
  */
 
 public class AppApplication extends BaseApplication {

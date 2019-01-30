@@ -2,6 +2,7 @@ package lwc.xihang.com.apptask.entity;
 
 /**
  * Created on 2017/12/24.
+ * 外键查询连接实体
  */
 
 public class Links {

@@ -37,6 +37,9 @@ import lwc.xihang.com.apptask.utils.MyAdapter;
 import me.goldze.mvvmhabit.base.BaseActivity;
 import me.goldze.mvvmhabit.utils.ToastUtils;
 
+/**
+ *主界面实现逻辑
+* */
 public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewModel> {
     private BluetoothAdapter bluetoothAdapter;
     private List<String> listItems;
@@ -58,7 +61,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
-        // Drawer
+        // 左边抽屉栏的实现
         final DrawerLayout drawer = findViewById(R.id.drawer_layout_main);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -80,12 +83,15 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
                         progressDialog.setCancelable(true);
                         progressDialog.show();
                         break;
+                    // 下载检查任务控制
                     case R.id.downloadTask:
                         viewModel.downLoadTask(blueToothId);
                         break;
+                    // 上传检查结果控制
                     case R.id.uploadResult:
                         viewModel.uploadTaskResult();
                         break;
+                    // 退出系统
                     case R.id.exitSystem:
                         viewModel.logout();
                         break;
@@ -98,12 +104,12 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
             }
         });
         bluetoothAdapter=BluetoothAdapter.getDefaultAdapter();
-        // 发现事件
+        // 蓝牙标签发现事件
         IntentFilter filter=new IntentFilter(BluetoothDevice.ACTION_FOUND);
         registerReceiver(receiver,filter);
         IntentFilter filter2=new IntentFilter(BluetoothAdapter.ACTION_DISCOVERY_FINISHED);
         registerReceiver(receiver,filter2);
-        // 主界面防止一个Activity
+        // 主界面放置一个Activity
         getSupportFragmentManager()
                 .beginTransaction()
                 .add(R.id.fragment_container,new InspectionTaskFragment())
@@ -181,7 +187,7 @@ public class MainActivity extends BaseActivity<ActivityMainBinding, MainViewMode
         alertDialog = builder.create();
         alertDialog.show();
     }
-
+    // 右上角的菜单栏
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.setting_menu,menu);

@@ -5,6 +5,7 @@ import java.util.Map;
 
 /**
  * Created on 2017/12/24.
+ * 分页查询实体
  */
 
 public class BaseWrapper<T> {

@@ -2,6 +2,7 @@ package lwc.xihang.com.apptask.entity;
 
 /**
  * Created by Administrator on 2019/1/11.
+ * 蓝牙标签实体
  */
 
 public class BlueLabel {

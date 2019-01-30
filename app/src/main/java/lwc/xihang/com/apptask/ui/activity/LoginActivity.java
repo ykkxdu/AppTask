@@ -20,6 +20,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
 
     @Override
     public int initContentView() {
+        // 登录界面的布局
         return R.layout.activity_login;
     }
 
@@ -64,7 +65,7 @@ public class LoginActivity extends BaseActivity<ActivityLoginBinding, LoginViewM
         super.onCreate(savedInstanceState);
         initialize();
     }
-
+    // 用来保存用户登录成功后状态，下一次不用再次从登录界面进入。
     private void initialize() {
         SharedPreferences preferences =
                 getSharedPreferences(Configuration.SharedPreferencesLogin, MODE_PRIVATE);
